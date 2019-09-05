@@ -1,5 +1,5 @@
 # 1-1 Recreation
-This project was originally created in about three weeks for a class.
+This project was originally created in about three weeks for a class. It is currently a crude recreation of 1-1.
 
 ## Getting Started
 From your terminal in the project directory, set up a virtual environment and then run the project by
