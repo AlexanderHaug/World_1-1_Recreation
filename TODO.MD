@@ -1,5 +1,8 @@
 #Things to Do
 
+* Make blocks:
+    * Simplify block creation
+    * Create graphic pattern
 * Make touching the bottom of the screen cause a restart.
 * Create enemies:
     * Give them the ability to move.
