@@ -3,7 +3,6 @@
 * Make blocks:
     * Simplify block creation
     * Create graphic pattern
-* Make touching the bottom of the screen cause a restart.
 * Create enemies:
     * Give them the ability to move.
     * Touching everything but the top cause a restart for the level.

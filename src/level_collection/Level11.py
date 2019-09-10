@@ -1,18 +1,10 @@
-import pygame
 import global_constants.global_constants as gc
-import global_constants.Player as Player
 import global_constants.Block as Block
 import global_constants.Level as Level
 
 
-# Create platforms for the level
-class Level01(Level.Level):
-    """ Definition for level 1."""
-
+class Level11(Level.Level):
     def __init__(self, player):
-        """ Create level 1. """
-
-        # Call the parent constructor
         Level.Level.__init__(self, player)
 
         self.level_limit = -6000
@@ -32,19 +24,14 @@ class Level01(Level.Level):
         fourthLand = gc.block_size * 57
         fourthLandFirstBlock = thirdLandGap
 
-
-
-
-
         # Array with width, height, x, and y of platform
         levelBlocks = [
 
                     # First Patch of Ground
-                    [firstLand, gc.block_size, 0, gc.screen_height - (gc.block_size), gc.ground],  # The Bottom
-                    [firstLand, gc.block_size, 0, gc.screen_height - (gc.block_size * 2), gc.ground],  # The Top
+                    [firstLand, gc.block_size * 2, 0, gc.screen_height - (gc.block_size * 2), gc.ground],
 
                     #         ?
-                    #    ?  B?B?B   P   P   P   P   
+                    #    ?  B?B?B   P   P   P   P
                     [gc.block_size, gc.block_size, firstBlock, (gc.screen_height - (gc.block_size * 6)), gc.gold_block],
 
                     [gc.block_size, gc.block_size, firstBlock + (gc.block_size * 4), gc.screen_height - (gc.block_size * 6), gc.block],
@@ -61,8 +48,7 @@ class Level01(Level.Level):
 
 
                     # Second Patch of Ground
-                    [secondLand, gc.block_size, firstLandGap, gc.screen_height - (gc.block_size), gc.ground],  # The Bottom Fist Patch Ground
-                    [secondLand, gc.block_size, firstLandGap, gc.screen_height - (gc.block_size * 2), gc.ground],  # The Top First Patch Ground
+                    [secondLand, gc.block_size * 2, firstLandGap, gc.screen_height - (gc.block_size * 2), gc.ground],
 
                     #      BBBBBBBB
                     #   B?B
@@ -81,8 +67,7 @@ class Level01(Level.Level):
 
 
                     # Third Patch of Ground
-                    [thirdLand, gc.block_size, secondLandGap, gc.screen_height - gc.block_size, gc.ground],  # The Bottom Fist Patch Ground
-                    [thirdLand, gc.block_size, secondLandGap, gc.screen_height - (gc.block_size * 2), gc.ground],  # The Top First Patch Ground
+                    [thirdLand, gc.block_size * 2, secondLandGap, gc.screen_height - (gc.block_size * 2), gc.ground],
 
                     #   BBB?              ?           BBB   B??B
                     #      B    BB     ?  ?  ?     B         BB     H   H   H
@@ -152,8 +137,7 @@ class Level01(Level.Level):
                     [gc.block_size, gc.block_size, thirdLandFirstBlock + (gc.block_size * 61), gc.screen_height - (gc.block_size * 6), gc.hard_block],
 
                     # Fourth Patch of Ground
-                    [fourthLand, gc.block_size, thirdLandGap, gc.screen_height - gc.block_size, gc.ground], # The Bottom Fist Patch Ground
-                    [fourthLand, gc.block_size, thirdLandGap, gc.screen_height - (gc.block_size * 2), gc.ground], # The Top First Patch Ground
+                    [fourthLand, gc.block_size * 2, thirdLandGap, gc.screen_height - (gc.block_size * 2), gc.ground],
 
                     #         BB?B
                     #  S   P          PS   F
@@ -232,117 +216,10 @@ class Level01(Level.Level):
                     [gc.block_size, gc.block_size * 13, fourthLandFirstBlock + (gc.block_size * 43), gc.screen_height - (gc.block_size * 15), gc.flag],
                  ]
 
-        # Go through the array above and add platforms
+        # Go through the array above and add platforms to create the level
         for platform in levelBlocks:
             block = Block.Block(platform[0], platform[1], platform[4])
             block.rect.x = platform[2]
             block.rect.y = platform[3]
             block.player = self.player
             self.platform_list.add(block)
-
-
-def main():
-    """ Main Program """
-    pygame.init()
-
-    # Set the height and width of the screen
-    size = [gc.screen_width, gc.screen_height]
-    screen = pygame.display.set_mode(size)
-
-    pygame.display.set_caption("HAUUUUG 1-1")
-
-    # Create the player
-    player = Player.Player()
-
-    # Create all the levels
-    level_list = []
-    level_list.append(Level01(player))
-
-    # Set the current level
-    current_level_no = 0
-    current_level = level_list[current_level_no]
-
-    active_sprite_list = pygame.sprite.Group()
-    player.level = current_level
-
-    player.rect.x = 0
-    player.rect.y = gc.screen_height - (gc.block_size * 3)
-    active_sprite_list.add(player)
-
-    # Loop until the user clicks the close button.
-    done = False
-
-    # Used to manage how fast the screen updates
-    clock = pygame.time.Clock()
-
-    # ---------- Main Program Loop -------------
-    while not done:
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    player.go_left()
-                if event.key == pygame.K_RIGHT:
-                    player.go_right()
-                if event.key == pygame.K_UP:
-                    player.jump()
-
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT and player.change_x < 0:
-                    player.stop()
-                if event.key == pygame.K_RIGHT and player.change_x > 0:
-                    player.stop()
-
-        # Update the player.
-        active_sprite_list.update()
-
-        # Update items in the level
-        current_level.update()
-
-        # If the player gets near the right side, shift the world left (-x)
-        if player.rect.right >= 500:
-            diff = player.rect.right - 500
-            player.rect.right = 500
-            current_level.shift_world(-diff)
-
-        # If the player gets near the left side, shift the world right (+x)
-        if player.rect.left <= 120:
-            diff = 120 - player.rect.left
-            player.rect.left = 120
-            current_level.shift_world(diff)
-
-        # If the player gets to the end of the level, go to the next level
-        current_position = player.rect.x + current_level.world_shift
-        if current_position < current_level.level_limit:
-            player.rect.x = 120
-            if current_level_no < len(level_list) - 1:
-                current_level_no += 1
-                current_level = level_list[current_level_no]
-                player.level = current_level
-
-        # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
-        current_level.draw(screen)
-        active_sprite_list.draw(screen)
-
-        # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
-
-        # Limit to 60 frames per second
-        clock.tick(60)
-
-        # Go ahead and update the screen with what we've drawn.
-        pygame.display.flip()
-
-    # Be IDLE friendly. If you forget this line, the program will 'hang'
-    # on exit.
-    pygame.quit()
-
-
-if __name__ == "__main__":
-    pygame.mixer.init()
-    pygame.mixer.music.load(gc.overworld_music)
-    pygame.mixer.music.play(-1)
-    main()
-
