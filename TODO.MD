@@ -1,9 +1,10 @@
 #Things to Do
 
-* Make blocks:
+* blocks:
     * Simplify block creation
     * Create graphic pattern
-* Create enemies:
+* Enemies:
+    * Create the class.
     * Give them the ability to move.
     * Touching everything but the top cause a restart for the level.
     * Make them disappear by jumping on them.
